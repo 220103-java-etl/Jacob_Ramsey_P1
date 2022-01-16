@@ -19,14 +19,18 @@ import com.revature.models.Role;
 import com.revature.models.User;
 
 public class AuthServiceTest {
-	
-	private static AuthService authService;
-	private static UserService userService;
-	private static UserDAO userDAO;
 
-	private User EMPLOYEE_TO_REGISTER;
-	private User GENERIC_EMPLOYEE_1;
-	private User GENERIC_FINANCE_MANAGER_1;
+
+
+		private static AuthService authService;
+		private static UserService userService;
+		private static UserDAO userDAO;
+
+		private User EMPLOYEE_TO_REGISTER;
+		private User GENERIC_EMPLOYEE_1;
+		private User GENERIC_FINANCE_MANAGER_1;
+
+
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

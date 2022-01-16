@@ -1,5 +1,7 @@
 package com.revature.models;
 
+import com.revature.MockDb.Database;
+
 import java.util.Objects;
 
 /**
@@ -42,9 +44,7 @@ public class AbstractUser {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+
 
     public String getUsername() {
         return username;
@@ -64,6 +64,10 @@ public class AbstractUser {
 
     public Role getRole() {
         return role;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setRole(Role role) {
