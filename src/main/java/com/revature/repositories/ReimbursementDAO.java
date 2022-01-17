@@ -1,9 +1,14 @@
 package com.revature.repositories;
 
+import com.revature.MockDb.Database;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementRequest;
 import com.revature.models.Status;
+import com.revature.models.User;
+import com.revature.services.ReimbursementRequestService;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,4 +38,10 @@ public class ReimbursementDAO {
     public Reimbursement update(Reimbursement unprocessedReimbursement) {
     	return null;
     }
+
+
+    public void reimbursementRequestCreate(User u, ReimbursementRequest r){
+        Database.reimbursements.put(u,r);
+    }
 }
+
