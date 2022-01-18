@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class FrontEndClass {
+    private static int I=0;
     UserService userService=new UserService();
     AuthService authService=new AuthService();
     ReimbursementRequestService reimbursementRequestService=new ReimbursementRequestService();
@@ -105,22 +106,24 @@ public class FrontEndClass {
         System.out.println("Please enter your Password");
         String passWord=scanner.nextLine();
         authService.login(userName,passWord);
+
         postLoginScreenEmployee(authService.login(userName,passWord));
 
 
     }
     public void postLoginScreenEmployee(User u){
-
+        System.out.println("You are now logged in");
         System.out.println("1. View your reimbursement requests");
         System.out.println("2. Check your available reimbursment left");
         System.out.println("3. Create a reimbursment request");
+        System.out.println("4. Logout");
         int numSelected= scanner.nextInt();
 
         switch(numSelected){
             case 1:
             case 2:
             case 3:reimbursementRequest(u);
-
+            case 4:homeScreen();
 
         }
     }
@@ -144,19 +147,46 @@ public class FrontEndClass {
 
         switch(sbEveTyp.toString()){
             case "UNIVERSITYCOURSE":
-                ReimbursementRequest r=new ReimbursementRequest(EventType.UNIVERSITY_COURSE,gradeingFormat,"proof",u,day,month,year,eventCost);
+                ReimbursementRequest r=new ReimbursementRequest(EventType.UNIVERSITY_COURSE,gradeingFormat,"proof",u,day,month-1,year,eventCost);
+                reimbursementRequestService.reimbursementCreate(u,r);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
+                break;
             case "SEMINAR":
-                ReimbursementRequest g=new ReimbursementRequest(EventType.SEMINAR,gradeingFormat,"proof",u,day,month,year,eventCost);
+                ReimbursementRequest g=new ReimbursementRequest(EventType.SEMINAR,gradeingFormat,"proof",u,day,month-1,year,eventCost);
+                reimbursementRequestService.reimbursementCreate(u,g);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
+                break;
             case"CERTIFICATIONPREPORATIONCLASS":
-                ReimbursementRequest d=new ReimbursementRequest(EventType.CERTIFICATION_PREP_CLASS,gradeingFormat,"proof",u,day,month,year,eventCost);
+                ReimbursementRequest d=new ReimbursementRequest(EventType.CERTIFICATION_PREP_CLASS,gradeingFormat,"proof",u,day,month-1,year,eventCost);
+                reimbursementRequestService.reimbursementCreate(u,d);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
+                break;
             case"CERTIFICATION":
-                ReimbursementRequest n=new ReimbursementRequest(EventType.CERTIFICATION,gradeingFormat,"proof",u,day,month,year,eventCost);
+                ReimbursementRequest n=new ReimbursementRequest(EventType.CERTIFICATION,gradeingFormat,"proof",u,day,month-1,year,eventCost);
+                reimbursementRequestService.reimbursementCreate(u,n);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
+                break;
             case"TECHNICALTRAINING":
-                ReimbursementRequest p=new ReimbursementRequest(EventType.TECHNICAL_TRAINING,gradeingFormat,"proof",u,day,month,year,eventCost);
+                ReimbursementRequest p=new ReimbursementRequest(EventType.TECHNICAL_TRAINING,gradeingFormat,"proof",u,day,month-1,year,eventCost);
+                reimbursementRequestService.reimbursementCreate(u,p);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
+                break;
             case"OTHER":
-                ReimbursementRequest q=new ReimbursementRequest(EventType.OTHER,gradeingFormat,"proof",u,year,month,day,eventCost);
+                ReimbursementRequest q=new ReimbursementRequest(EventType.OTHER,gradeingFormat,"proof",u,year,month-1,day,eventCost);
                 reimbursementRequestService.reimbursementCreate(u,q);
-                System.out.println(Database.reimbursements);
+                System.out.println(Database.reimbursements.get(u).get(I));
+                I++;
+                postLoginScreenEmployee(u);
         }
 
     }

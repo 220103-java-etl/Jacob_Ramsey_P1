@@ -40,7 +40,7 @@ public class AuthService {
         }
         if (u.get().getUsername().equals(username)) {
             if (u.get().getPassword().equals(password)) {
-                System.out.println("You are now logged in");
+
                 return u.get();
             } else {
                 PassWordException passWordException = new PassWordException("Your password was incorrect");

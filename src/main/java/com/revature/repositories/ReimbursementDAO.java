@@ -7,10 +7,7 @@ import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.services.ReimbursementRequestService;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ReimbursementDAO {
 
@@ -40,8 +37,21 @@ public class ReimbursementDAO {
     }
 
 
-    public void reimbursementRequestCreate(User u, ReimbursementRequest r){
-        Database.reimbursements.put(u,r);
+    public void reimbursementRequestCreate(User u, ArrayList<ReimbursementRequest> arrayList){
+
+        Database.reimbursements.put(u,arrayList);
     }
+    public  boolean reimbursementGetExistStat(User u){
+        if (Database.reimbursements.isEmpty()){
+            return Database.reimbursements.isEmpty();
+        }
+        else{
+            return Database.reimbursements.get(u).isEmpty();
+        }
+    }
+    public void addReimbusementRequest(User u, ReimbursementRequest r){
+        Database.reimbursements.get(u).add(r);
+    }
+
 }
 

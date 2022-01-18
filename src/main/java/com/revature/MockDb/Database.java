@@ -12,6 +12,7 @@ import java.util.Map;
 public  class Database {
     public static int Index=0;
     public static List<User> users= new ArrayList<>();
-    public static Map<User, ReimbursementRequest> reimbursements= new HashMap<>();
+    public static List<ReimbursementRequest> reimbursementRequests=new ArrayList<>();
+    public static Map<User, ArrayList<ReimbursementRequest>> reimbursements= new HashMap<>();
 
 }
