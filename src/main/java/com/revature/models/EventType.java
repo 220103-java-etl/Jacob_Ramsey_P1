@@ -16,7 +16,7 @@ public enum EventType {
     CERTIFICATION_PREP_CLASS {
         @Override
         public String toString() {
-            return "Certification Preporation Class";
+            return "Certification Prep Class";
         }
     },
     CERTIFICATION{
@@ -35,7 +35,7 @@ public enum EventType {
     OTHER {
         @Override
         public String toString() {
-            return "OTHER";
+            return "Other";
         }
     }
 

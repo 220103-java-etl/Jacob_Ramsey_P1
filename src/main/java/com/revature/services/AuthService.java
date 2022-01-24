@@ -2,6 +2,7 @@ package com.revature.services;
 
 import com.revature.exceptions.PassWordException;
 import com.revature.exceptions.UserNameException;
+import com.revature.exceptions.UsernameNotUniqueException;
 import com.revature.models.User;
 import com.revature.repositories.UserDAO;
 
@@ -64,8 +65,13 @@ public class AuthService {
      * After registration, the id will be a positive integer.
      */
     public User register(User userToBeRegistered) {
+        if(userDAO.getByUsername(userToBeRegistered.getUsername()).isEmpty()){
         userDAO.create(userToBeRegistered);
-        return userToBeRegistered;
+        return userToBeRegistered;}
+        else{
+            UsernameNotUniqueException u=new UsernameNotUniqueException();
+            throw u;
+        }
     }
 
     /**

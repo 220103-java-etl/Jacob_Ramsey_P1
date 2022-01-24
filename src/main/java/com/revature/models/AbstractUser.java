@@ -2,6 +2,7 @@ package com.revature.models;
 
 import com.revature.MockDb.Database;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Objects;
  */
 
 public class AbstractUser {
-
+    private double availableReimbursement;
     private int id;
     private String username;
     private String password;
@@ -32,9 +33,26 @@ public class AbstractUser {
         super();
     }
 
+    public AbstractUser( String username, String password, Role role) {
+        super();
+
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public BigDecimal getAvailableReimbursement() {
+        BigDecimal b=new BigDecimal(availableReimbursement);
+        return b;
+    }
+
+    public void setAvailableReimbursement(double availableReimbursement) {
+        this.availableReimbursement = availableReimbursement;
+    }
+
     public AbstractUser(int id, String username, String password, Role role) {
         super();
-        this.id = id;
+        this.id=id;
         this.username = username;
         this.password = password;
         this.role = role;
