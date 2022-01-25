@@ -3,7 +3,6 @@ package com.revature.repositories;
 import com.revature.models.*;
 import com.revature.util.ConnectionFactory;
 
-import javax.sound.midi.Soundbank;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class ReimbursementRequestDOA {
     UserDAO userDAO=new UserDAO();
@@ -52,7 +52,9 @@ public class ReimbursementRequestDOA {
             ps.setInt(1, u.getId());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                ReimbursementRequest r=new ReimbursementRequest(EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
+                ReimbursementRequest r=new ReimbursementRequest(
+                        rs.getInt("id"),
+                        EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
                         rs.getString("gradeing_format"),rs.getString("loc_work_rel_doc"),u,rs.getDate("event_dt").toString(),
                         rs.getDouble("reim_cost"), Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ","_").toUpperCase(Locale.ROOT))
                         ,Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ","_")));
@@ -69,6 +71,33 @@ public class ReimbursementRequestDOA {
 
     }
 
+    public Optional<ReimbursementRequest> reimbursementRequestGetById(int Id) {
+        String sql = "select * from reimbursement_request where id=?" ;
+
+        try(Connection conn=cu.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, Id);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+               ReimbursementRequest r=new ReimbursementRequest(Id,EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
+                        rs.getString("gradeing_format"),rs.getString("loc_work_rel_doc"),userDAO.getByUserId(Id).get(),rs.getDate("event_dt").toString(),
+                        rs.getDouble("reim_cost"), Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ","_").toUpperCase(Locale.ROOT))
+                        ,Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ","_")));
+                return Optional.of(r);
+            }
+            System.out.println("Reimbursments Retrieved");
+
+
+
+        }catch (SQLException s){
+            s.printStackTrace();
+        }
+        return null;
+
+    }
+
     public List<ReimbursementRequest> reimbursementRequestGetAllRequest() {
         String sql = "select * from reimbursement_request";
         List<ReimbursementRequest> userReimRequest=new ArrayList<>();
@@ -76,14 +105,17 @@ public class ReimbursementRequestDOA {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
-                ReimbursementRequest r=new ReimbursementRequest(EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
-                        rs.getString("gradeing_format"),
-                        rs.getString("loc_work_rel_doc"),
-                        userDAO.getByUserId(rs.getInt("user_id")).get(),
-                        rs.getDate("event_dt").toString(),
-                        rs.getDouble("reim_cost"),
-                        Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ","_").toUpperCase(Locale.ROOT)),
-                        Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ","_")));
+                ReimbursementRequest r=
+                        new ReimbursementRequest(
+                                rs.getInt("id"),
+                                EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
+                                rs.getString("gradeing_format"),
+                                rs.getString("loc_work_rel_doc"),
+                                userDAO.getByUserId(rs.getInt("user_id")).get(),
+                                rs.getDate("event_dt").toString(),
+                                rs.getDouble("reim_cost"),
+                                Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ","_").toUpperCase(Locale.ROOT)),
+                                Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ","_")));
                 userReimRequest.add(r);
             }
 
@@ -96,16 +128,16 @@ public class ReimbursementRequestDOA {
         return null;
 
     }
-    public void updateReimRequest(Timeing value,int userId){
+    public void updateReimRequestTimeing(Timeing value, int Id){
         try(Connection conn=cu.getConnection()) {
 
-            String sql = "update reimbursement_request set reim_request_timing=? where user_id=? ";
+            String sql = "update reimbursement_request set reim_request_timing=? where id=? ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
 
             ps.setString(1, value.toString());
-            ps.setInt(2, userId);
-
+            ps.setInt(2, Id);
+            ps.executeQuery();
         }catch (SQLException s){
                 s.printStackTrace();
             }
@@ -114,4 +146,25 @@ public class ReimbursementRequestDOA {
 
 
     }
+
+    public void updateReimRequestValidaty(Status status, int userFormId){
+        try(Connection conn=cu.getConnection()) {
+
+            String sql = "update reimbursement_request set reim_request_status=? where id=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, status.toString());
+            ps.setInt(2, userFormId);
+            ps.executeQuery();
+            System.out.println("You have successfully changed the form "+userFormId+" to "+ status.toString());
+        }catch (SQLException s){
+            s.printStackTrace();
+        }
+
+
+
+
+    }
+
 }

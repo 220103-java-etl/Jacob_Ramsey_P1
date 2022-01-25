@@ -15,12 +15,28 @@ public class AbstractReimbursementRequest {
     private String locAndWorkRelationDoc;
     private Date currentDate;
     private User u;
+    private int id;
 
     private Date dateOfEvent;
 
 
 
 
+    public  AbstractReimbursementRequest(int id,EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,double totalCost,
+                                         Status status, Timeing timeing){
+
+        this.id=id;
+        this.reimbursmentAmount=totalCost;
+        this.currentDate=new java.sql.Date(System.currentTimeMillis());
+        this.dateOfEvent=java.sql.Date.valueOf(eventDate);
+        this.locAndWorkRelationDoc=locAndWorkRelationDoc;
+        this.eventType=eventType;
+        this.gradeingFormat=gradeingFormat;
+        this.u=user;
+        this.status=status;
+        this.timeing=timeing;
+
+}
     public  AbstractReimbursementRequest(EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,double totalCost,
                                          Status status, Timeing timeing){
 
@@ -35,7 +51,11 @@ public class AbstractReimbursementRequest {
         this.status=status;
         this.timeing=timeing;
 
-}
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public Status getStatus() {
         return status;

@@ -23,21 +23,19 @@ public class AbstractReimbursement {
 
     private int id;
     private Status status;
-    private User author;
     private User resolver;
-    private double amount;
+
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User author, User resolver, double amount) {
+    public AbstractReimbursement(int id, Status status, User resolver) {
         super();
         this.id = id;
         this.status = status;
-        this.author = author;
         this.resolver = resolver;
-        this.amount = amount;
+
     }
 
     public int getId() {
@@ -56,13 +54,6 @@ public class AbstractReimbursement {
         this.status = status;
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
 
     public User getResolver() {
         return resolver;
@@ -72,25 +63,19 @@ public class AbstractReimbursement {
         this.resolver = resolver;
     }
 
-    public double getAmount() {
-        return amount;
-    }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AbstractReimbursement that = (AbstractReimbursement) o;
-        return id == that.id && Double.compare(that.amount, amount) == 0 && status == that.status && Objects.equals(author, that.author) && Objects.equals(resolver, that.resolver);
+        return id == that.id  && status == that.status  && Objects.equals(resolver, that.resolver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, status, author, resolver, amount);
+        return Objects.hash(id, status,  resolver);
     }
 
     @Override
@@ -98,9 +83,7 @@ public class AbstractReimbursement {
         return "AbstractReimbursement{" +
                 "id=" + id +
                 ", status=" + status +
-                ", author=" + author +
                 ", resolver=" + resolver +
-                ", amount=" + amount +
                 '}';
     }
 }

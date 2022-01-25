@@ -71,9 +71,9 @@ public class AuthServiceTest {
 
 	@Test
 	public void testRegisterFailsWhenRegistrationIsUnsuccessful() {
-		when(userDAO.create(anyObject())).thenThrow(new RegistrationUnsuccessfulException());
+		when(userDAO.create(anyObject())).thenThrow(new UsernameNotUniqueException());
 
-		assertThrows(RegistrationUnsuccessfulException.class,
+		assertThrows(UsernameNotUniqueException.class,
 				() -> authService.register(EMPLOYEE_TO_REGISTER)
 		);
 	}

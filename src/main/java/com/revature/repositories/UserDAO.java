@@ -32,7 +32,7 @@ public class UserDAO {
                 User u = new User(rs.getInt("id"),
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
-                        Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT)),
+                        Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
                         rs.getDouble("available_reimbursement"));
                 return Optional.of(u);
             }
@@ -53,7 +53,7 @@ public class UserDAO {
                 User u = new User(rs.getInt("id"),
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
-                        Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT)),
+                        Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
                         rs.getDouble("available_reimbursement"));
                 return Optional.of(u);
             }
@@ -87,7 +87,7 @@ public class UserDAO {
                 User u=new User(rs.getInt("id"),
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
-                      Role.valueOf( rs.getString("roles").toUpperCase(Locale.ROOT)),
+                      Role.valueOf( rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
                         rs.getDouble("available_reimbursement"));
                 return u;
             }

@@ -1,13 +1,14 @@
 package com.revature.services;
 
-import com.revature.MockDb.Database;
-import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementRequest;
+import com.revature.models.Status;
 import com.revature.models.Timeing;
 import com.revature.models.User;
-import com.revature.repositories.ReimbursementDAO;
 import com.revature.repositories.ReimbursementRequestDOA;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ReimbursementRequestService {
@@ -26,11 +27,15 @@ public class ReimbursementRequestService {
         Date current=new java.sql.Date(System.currentTimeMillis());
         for(ReimbursementRequest r:arrayList){
             if((r.getDateOfEvent().getTime()/86400000)-(current.getTime()/86400000)<=14){
-                reimbursementDAO.updateReimRequest(Timeing.URGENT,r.getUser().getId());
+                System.out.println((r.getDateOfEvent().getTime()/86400000)-(current.getTime()/86400000));
+                reimbursementDAO.updateReimRequestTimeing(Timeing.URGENT,r.getId());
             }
         }
 
     }
-}
 
+    public void updateReimRequestValidatyService(Status status, int userFormId){
+       reimbursementDAO.updateReimRequestValidaty(status, userFormId);
+        }
+    }
 

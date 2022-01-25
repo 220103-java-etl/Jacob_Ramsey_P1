@@ -1,8 +1,11 @@
 package com.revature.services;
 
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementRequest;
 import com.revature.models.Status;
 import com.revature.models.User;
+import com.revature.repositories.ReimbursementDAO;
+import com.revature.repositories.ReimbursementRequestDOA;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +28,8 @@ import java.util.List;
  * </ul>
  */
 public class ReimbursementService {
-
+    ReimbursementRequestDOA reimbursementRequestDOA=new ReimbursementRequestDOA();
+    ReimbursementDAO reimbursementDAO=new ReimbursementDAO();
     /**
      * <ul>
      *     <li>Should ensure that the user is logged in as a Finance Manager</li>
@@ -49,5 +53,11 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbursementsByStatus(Status status) {
         return Collections.emptyList();
+    }
+
+    public void addReimbusementService(  int reimFormId, User u){
+
+        Reimbursement reimbursement=new Reimbursement(reimFormId,Status.PENDING,u);
+        reimbursementDAO.addReimbusementDOA(reimbursement);
     }
 }

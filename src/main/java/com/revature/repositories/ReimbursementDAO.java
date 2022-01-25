@@ -6,11 +6,17 @@ import com.revature.models.ReimbursementRequest;
 import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.services.ReimbursementRequestService;
+import com.revature.util.ConnectionFactory;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ReimbursementDAO {
-
+    UserDAO userDAO=new UserDAO();
+    ConnectionFactory cu=ConnectionFactory.getInstance();
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
      */
@@ -49,9 +55,31 @@ public class ReimbursementDAO {
             return Database.reimbursements.get(u).isEmpty();
         }
     }
-    public void addReimbusementRequest(User u, ReimbursementRequest r){
-        Database.reimbursements.get(u).add(r);
+    public void addReimbusementDOA( Reimbursement r){
+
+        String sql = "insert into reimbursement_req_accepted values (?,?,?,default)" ;
+
+        try(Connection conn=cu.getConnection()){
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, r.getId());
+            ps.setInt(2, r.getResolver().getId());
+            ps.setString(3, Status.PENDING.toString());
+            ps.executeQuery();
+
+            System.out.println("Reimbursment Created");
+
+
+
+        }catch (SQLException s){
+            s.printStackTrace();
+        }
+
+
     }
 
-}
+
+    }
+
+
 

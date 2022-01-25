@@ -4,11 +4,14 @@ import com.revature.Driver;
 import com.revature.MockDb.Database;
 import com.revature.exceptions.RegistrationUnsuccessfulException;
 import com.revature.models.*;
+import com.revature.repositories.ReimbursementDAO;
 import com.revature.services.AuthService;
 import com.revature.services.ReimbursementRequestService;
+import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 
 
+import java.sql.SQLOutput;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -17,6 +20,7 @@ public class FrontEndClass {
     UserService userService=new UserService();
     AuthService authService=new AuthService();
     ReimbursementRequestService reimbursementRequestService=new ReimbursementRequestService();
+    ReimbursementService reimbursementService=new ReimbursementService();
     Scanner scanner=new Scanner(System.in);
 
 
@@ -49,17 +53,17 @@ public class FrontEndClass {
 
 
 
-                if(role.toString().equals("EMPLOYEE")){
-                User user = new User( userName, passWord, Role.EMPLOYEE,1000);
+                if(role.toString().equals("EMPLOYEE")) {
+                    User user = new User(userName, passWord, Role.EMPLOYEE, 1000);
                     authService.register(user);
                     System.out.println("You've created an account!");
-                    System.out.println(Database.users);}
 
-                else if(role.toString().equals("SECRET_PASS")){
-                    User user = new User( userName, passWord, Role.FINANCE_MANAGER);
+
+                }else if(role.toString().equals("SECRET_PASS")) {
+                    User user = new User(userName, passWord, Role.FINANCE_MANAGER, 0);
                     authService.register(user);
-                    System.out.println("You've created an account!");}
-                else{
+                    System.out.println("You've created an account!");
+                }else{
 
                     throw new RegistrationUnsuccessfulException("Whoops you must have entered your role incorrectly");
                 }
@@ -102,9 +106,12 @@ public class FrontEndClass {
         String userName=scanner.nextLine();
         System.out.println("Please enter your Password");
         String passWord=scanner.nextLine();
-        authService.login(userName,passWord);
-
-        postLoginScreenEmployee(authService.login(userName,passWord));
+        User currentUser=authService.login(userName,passWord);
+        if(currentUser.getRole()==Role.FINANCE_MANAGER) {
+            postLoginSecreenManager(currentUser);
+        }else{
+            postLoginScreenEmployee(currentUser);
+        }
 
 
     }
@@ -133,6 +140,40 @@ public class FrontEndClass {
 
         }
     }
+
+    public void postLoginSecreenManager(User u){
+
+        System.out.println("You are now logged in");
+        System.out.println("1. Validate or Invalidate a request form");
+        System.out.println("2. Approve or Deny a request for reimbursement");
+        System.out.println("3. List current request forms to be validated");
+        System.out.println("4. List current request forms that need to be approved");
+
+        int numSelected=scanner.nextInt();
+
+        switch(numSelected){
+            case 1:
+
+                System.out.println("Type the Id for the request form you would like to validate or invalidate");
+                int requestFormId= scanner.nextInt();
+                System.out.println("Now type I to Invalidate or V to Validate");
+                scanner.nextLine();
+                String choice= scanner.nextLine().toUpperCase(Locale.ROOT);
+                if(choice.equals("V")){
+                    reimbursementRequestService.updateReimRequestValidatyService(Status.APPROVED, requestFormId);
+                    reimbursementService.addReimbusementService(requestFormId,u);
+                }
+                else if(choice.equals("I")){
+                    reimbursementRequestService.updateReimRequestValidatyService(Status.DENIED, requestFormId);
+                }
+                else{
+                    System.out.println("something went wrong");
+                }
+
+        }
+
+    }
+
     public void reimbursementRequest(User u){
         scanner.nextLine();
         System.out.println("Type the date of the event in 'YYYY-MM-DD' format");
