@@ -11,6 +11,7 @@ import com.revature.services.ReimbursementService;
 import com.revature.services.UserService;
 
 
+import java.math.BigDecimal;
 import java.sql.SQLOutput;
 import java.util.Locale;
 import java.util.Scanner;
@@ -186,7 +187,7 @@ public class FrontEndClass {
         String eventType=scanner.nextLine();
         StringBuilder sbEveTyp=new StringBuilder(eventType.strip().toUpperCase(Locale.ROOT));
         System.out.println("Type the cost of the course in the form a double form");
-        double eventCost= scanner.nextDouble();
+        BigDecimal eventCost= BigDecimal.valueOf( scanner.nextDouble());
 
         switch(sbEveTyp.toString()){
             case "UNIVERSITY COURSE":

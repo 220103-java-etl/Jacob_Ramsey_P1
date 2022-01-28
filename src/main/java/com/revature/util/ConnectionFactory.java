@@ -45,7 +45,11 @@ public class ConnectionFactory {
      * <p>Typically, this is accomplished via the use of the {@link java.sql.DriverManager} class.</p>
      */
     public Connection getConnection() {
-
+        try {
+            Class.forName(dbProps.getProperty("driver"));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Connection conn=null;
         String url= dbProps.getProperty("url");
         String userName= dbProps.getProperty("username");

@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
 
@@ -8,7 +9,7 @@ import java.util.*;
 public class AbstractReimbursementRequest {
     private Status status;
     private Timeing timeing;
-    private double reimbursmentAmount;
+    private BigDecimal reimbursmentAmount;
     private Map<EventType,Double> reimbursmentRub;
     private EventType eventType;
     private String gradeingFormat;
@@ -22,7 +23,7 @@ public class AbstractReimbursementRequest {
 
 
 
-    public  AbstractReimbursementRequest(int id,EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,double totalCost,
+    public  AbstractReimbursementRequest(int id,EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,BigDecimal totalCost,
                                          Status status, Timeing timeing){
 
         this.id=id;
@@ -37,7 +38,7 @@ public class AbstractReimbursementRequest {
         this.timeing=timeing;
 
 }
-    public  AbstractReimbursementRequest(EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,double totalCost,
+    public  AbstractReimbursementRequest(EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,BigDecimal totalCost,
                                          Status status, Timeing timeing){
 
 
@@ -65,11 +66,11 @@ public class AbstractReimbursementRequest {
         return timeing;
     }
 
-    public double getReimbursmentAmount() {
+    public BigDecimal getReimbursmentAmount() {
         return reimbursmentAmount;
     }
 
-    public void setReimbursmentAmount(double reimbursmentAmount) {
+    public void setReimbursmentAmount(BigDecimal reimbursmentAmount) {
         this.reimbursmentAmount = reimbursmentAmount;
     }
 

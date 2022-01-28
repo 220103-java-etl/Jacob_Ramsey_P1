@@ -9,6 +9,7 @@ import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
 import com.revature.util.FrontEndClass;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 public class UserDAO {
+
     ConnectionFactory cu = ConnectionFactory.getInstance();
     /**
      * Should retrieve a User from the DB with the corresponding username or an empty optional if there is no match.
@@ -127,5 +129,20 @@ public class UserDAO {
             e.printStackTrace();
         }
         return null;
+    }
+    public void updateAvailableReimbursement(BigDecimal requestAmount,User u){
+        try (Connection conn = cu.getConnection()) {
+
+        String sql = "update users set available_reimbursement=? where id=? ";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+          BigDecimal subtract= u.getAvailableReimbursement().subtract(requestAmount);
+        ps.setBigDecimal(1,subtract);
+        ps.setInt(2, u.getId());
+        ps.executeQuery();
+    } catch (SQLException s) {
+        s.printStackTrace();
+    }
+
     }
 }

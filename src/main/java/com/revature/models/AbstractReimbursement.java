@@ -24,6 +24,7 @@ public class AbstractReimbursement {
     private int id;
     private Status status;
     private User resolver;
+    private char finalGrade;
 
 
     public AbstractReimbursement() {
@@ -36,6 +37,14 @@ public class AbstractReimbursement {
         this.status = status;
         this.resolver = resolver;
 
+    }
+
+    public char getFinalGrade() {
+        return finalGrade;
+    }
+
+    public void setFinalGrade(char finalGrade) {
+        this.finalGrade = finalGrade;
     }
 
     public int getId() {
