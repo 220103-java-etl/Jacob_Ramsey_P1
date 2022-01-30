@@ -4,6 +4,7 @@ import com.revature.models.ReimbursementRequest;
 import com.revature.models.Status;
 import com.revature.models.Timeing;
 import com.revature.models.User;
+import com.revature.repositories.ReimbursementDAO;
 import com.revature.repositories.ReimbursementRequestDOA;
 
 import java.math.BigDecimal;
@@ -14,7 +15,7 @@ import java.util.*;
 
 public class ReimbursementRequestService {
     ReimbursementRequestDOA reimbursementDAO = new ReimbursementRequestDOA();
-
+    ReimbursementService reimbursement=new ReimbursementService();
     public Optional<ReimbursementRequest> getReimReqById(int Id){
         return reimbursementDAO.reimbursementRequestGetById(Id);
     }
@@ -31,12 +32,16 @@ public class ReimbursementRequestService {
         }
     }
 
+    public ReimbursementRequest getById(int Id){
+        return reimbursementDAO.reimbursementRequestGetById(Id).get();
+    }
+
     public List<ReimbursementRequest> getReimbursementReq(User u) {
         return reimbursementDAO.reimbursementRequestGetByUserName(u);
     }
 
     public void updateReimReqTimeing() {
-        List<ReimbursementRequest> arrayList=reimbursementDAO.reimbursementRequestGetAllRequest();
+        List<ReimbursementRequest> arrayList=reimbursementDAO.reimbursementRequestGetAllOpenRequest();
         Date current=new java.sql.Date(System.currentTimeMillis());
         for(ReimbursementRequest r:arrayList){
             if((r.getDateOfEvent().getTime()/86400000)-(current.getTime()/86400000)<=14){
@@ -47,8 +52,14 @@ public class ReimbursementRequestService {
 
     }
 
-    public void updateReimRequestValidatyService(Status status, int userFormId){
-       reimbursementDAO.updateReimRequestValidaty(status, userFormId);
+    public void updateReimRequestValidatyService(Status status, int userFormId,User userUpdateing){
+        if(Status.DENIED.equals(status)) {
+            reimbursementDAO.updateReimRequestValidaty(status, userFormId);
+        }
+        else{
+            reimbursement.addReimbusementService(userFormId,userUpdateing);
+            reimbursementDAO.updateReimRequestValidaty(status, userFormId);
+        }
 
     }
 
@@ -57,7 +68,11 @@ public class ReimbursementRequestService {
     }
 
     public List<ReimbursementRequest> getAllReimReq(){
-        return reimbursementDAO.reimbursementRequestGetAllRequest();
+        return reimbursementDAO.reimbursementRequestGetAllOpenRequest();
+    }
+
+    public BigDecimal updateReimRequestAmount(int Id,BigDecimal b){
+        return reimbursementDAO.updateReimRequestAmount(b,Id);
     }
 }
 

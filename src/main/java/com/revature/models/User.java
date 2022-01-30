@@ -1,6 +1,7 @@
 package com.revature.models;
 
-import com.revature.MockDb.Database;
+
+import java.math.BigDecimal;
 
 /**
  * This concrete User class can include additional fields that can be used for
@@ -20,24 +21,24 @@ public class User extends AbstractUser {
 
     public User() {
         super();
-        Database.Index+=1;
+
     }
 
     /**
      * This includes the minimum parameters needed for the {@link com.revature.models.AbstractUser} class.
      * If other fields are needed, please create additional constructors.
      */
-    public User( String username, String password, Role role) {
-        super( username, password, role);
+    public User( String username, String password, Role role,String fName,String lName, String email) {
+        super( username, password, role,fName,lName,email);
 
     }
-    public User( String username, String password, Role role,double availableReimbursement) {
-        super( username, password, role);
+    public User( String username, String password, Role role,BigDecimal availableReimbursement,String fName,String lName, String email) {
+        super( username, password, role,fName,lName,email);
         this.setAvailableReimbursement(availableReimbursement);
 
     }
-    public User( int id, String username, String password, Role role,double availableReimbursement) {
-        super( id,username, password, role);
+    public User(int id, String username, String password, Role role, BigDecimal availableReimbursement, String fName, String lName, String email) {
+        super( id,username, password, role,fName,lName,email);
         this.setAvailableReimbursement(availableReimbursement);
     }
 }

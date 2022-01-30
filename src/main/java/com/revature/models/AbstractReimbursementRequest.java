@@ -17,14 +17,14 @@ public class AbstractReimbursementRequest {
     private Date currentDate;
     private User u;
     private int id;
-
+    private String location;
     private Date dateOfEvent;
 
 
 
 
     public  AbstractReimbursementRequest(int id,EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,BigDecimal totalCost,
-                                         Status status, Timeing timeing){
+                                         Status status, Timeing timeing,String location){
 
         this.id=id;
         this.reimbursmentAmount=totalCost;
@@ -36,10 +36,11 @@ public class AbstractReimbursementRequest {
         this.u=user;
         this.status=status;
         this.timeing=timeing;
+        this.location=location;
 
 }
     public  AbstractReimbursementRequest(EventType eventType, String gradeingFormat, String locAndWorkRelationDoc, User user, String eventDate,BigDecimal totalCost,
-                                         Status status, Timeing timeing){
+                                         Status status, Timeing timeing,String location){
 
 
         this.reimbursmentAmount=totalCost;
@@ -51,7 +52,16 @@ public class AbstractReimbursementRequest {
         this.u=user;
         this.status=status;
         this.timeing=timeing;
+        this.location=location;
 
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getId() {

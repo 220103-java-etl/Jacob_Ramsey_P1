@@ -3,6 +3,7 @@ package com.revature.repositories;
 import com.revature.models.*;
 import com.revature.util.ConnectionFactory;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class ReimbursementRequestDOA {
     ConnectionFactory cu = ConnectionFactory.getInstance();
 
     public void reimbursementRequestCreate(ReimbursementRequest reimbursementRequest, User u) {
-        String sql = "insert into reimbursement_request values (default, ?, ?,?,?,?,?,?,?,?) returning *";
+        String sql = "insert into reimbursement_request values (default, ?, ?,?,?,?,?,?,?,?,?) returning *";
 
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -31,6 +32,7 @@ public class ReimbursementRequestDOA {
             ps.setDate(7, reimbursementRequest.getDateOfEvent());
             ps.setString(8, reimbursementRequest.getStatus().toString());
             ps.setString(9, reimbursementRequest.getTimeing().toString());
+            ps.setString(10,reimbursementRequest.getLocation());
             ResultSet rs = ps.executeQuery();
             userDAO.updateAvailableReimbursement(reimbursementRequest.getReimbursmentAmount(),u);
             System.out.println("Reimbursment Created and Available reim updated");
@@ -55,9 +57,9 @@ public class ReimbursementRequestDOA {
                 ReimbursementRequest r = new ReimbursementRequest(
                         rs.getInt("id"),
                         EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),
-                        rs.getString("gradeing_format"), rs.getString("loc_work_rel_doc"), u, rs.getDate("event_dt").toString(),
+                        rs.getString("gradeing_format"), rs.getString("related_doc"), u, rs.getDate("event_dt").toString(),
                         rs.getBigDecimal("reim_cost"), Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ", "_").toUpperCase(Locale.ROOT))
-                        , Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")));
+                        , Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),rs.getString("location"));
                 userReimRequest.add(r);
             }
             System.out.println("Reimbursments Retrieved");
@@ -82,9 +84,9 @@ public class ReimbursementRequestDOA {
 
             while (rs.next()) {
                 ReimbursementRequest r = new ReimbursementRequest(Id, EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),
-                        rs.getString("gradeing_format"), rs.getString("loc_work_rel_doc"), userDAO.getByUserId(Id).get(), rs.getDate("event_dt").toString(),
+                        rs.getString("gradeing_format"), rs.getString("related_doc"), userDAO.getByUserId(rs.getInt("user_id")).get(), rs.getDate("event_dt").toString(),
                         rs.getBigDecimal("reim_cost"), Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ", "_").toUpperCase(Locale.ROOT))
-                        , Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")));
+                        , Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),rs.getString("location"));
                 return Optional.of(r);
             }
             System.out.println("Reimbursments Retrieved");
@@ -97,8 +99,8 @@ public class ReimbursementRequestDOA {
 
     }
 
-    public List<ReimbursementRequest> reimbursementRequestGetAllRequest() {
-        String sql = "select * from reimbursement_request";
+    public List<ReimbursementRequest> reimbursementRequestGetAllOpenRequest() {
+        String sql = "select * from reimbursement_request where reim_request_status='Pending'";
         List<ReimbursementRequest> userReimRequest = new ArrayList<>();
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -109,12 +111,12 @@ public class ReimbursementRequestDOA {
                                 rs.getInt("id"),
                                 EventType.valueOf(rs.getString("event_type").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),
                                 rs.getString("gradeing_format"),
-                                rs.getString("loc_work_rel_doc"),
+                                rs.getString("related_doc"),
                                 userDAO.getByUserId(rs.getInt("user_id")).get(),
                                 rs.getDate("event_dt").toString(),
                                 rs.getBigDecimal("reim_cost"),
                                 Status.valueOf(rs.getString("reim_request_status").toUpperCase(Locale.ROOT).replaceAll(" ", "_").toUpperCase(Locale.ROOT)),
-                                Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")));
+                                Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),rs.getString("location"));
                 userReimRequest.add(r);
             }
 
@@ -142,6 +144,22 @@ public class ReimbursementRequestDOA {
             s.printStackTrace();
         }
 
+
+    }
+    public BigDecimal updateReimRequestAmount(BigDecimal amount, int Id) {
+        try (Connection conn = cu.getConnection()) {
+
+            String sql = "update reimbursement_request set reim_cost=? where id=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setBigDecimal(1, amount);
+            ps.setInt(2, Id);
+            ps.executeQuery();
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return amount;
 
     }
 

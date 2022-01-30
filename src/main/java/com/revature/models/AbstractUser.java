@@ -1,6 +1,6 @@
 package com.revature.models;
 
-import com.revature.MockDb.Database;
+
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -23,46 +23,79 @@ import java.util.Objects;
  */
 
 public class AbstractUser {
-    private double availableReimbursement;
+    private BigDecimal availableReimbursement;
     private int id;
     private String username;
     private String password;
+    private String fName;
+    private String lName;
+    private String email;
     private Role role;
 
     public AbstractUser() {
         super();
     }
 
-    public AbstractUser( String username, String password, Role role) {
+    public AbstractUser( String username, String password, Role role,String fName,String lName, String email) {
         super();
 
         this.username = username;
         this.password = password;
         this.role = role;
+        this.fName=fName;
+        this.lName=lName;
+        this.email=email;
     }
 
-    public BigDecimal getAvailableReimbursement() {
-        BigDecimal b=new BigDecimal(availableReimbursement);
-        return b;
-    }
 
-    public void setAvailableReimbursement(double availableReimbursement) {
-        this.availableReimbursement = availableReimbursement;
-    }
 
-    public AbstractUser(int id, String username, String password, Role role) {
+    public AbstractUser(int id, String username, String password, Role role,String fName,String lName, String emai) {
         super();
         this.id=id;
         this.username = username;
         this.password = password;
         this.role = role;
+        this.fName=fName;
+        this.lName=lName;
+        this.email=email;
+    }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
     public int getId() {
         return id;
     }
 
+    public BigDecimal getAvailableReimbursement() {
 
+        return this.availableReimbursement;
+    }
+
+    public void setAvailableReimbursement(BigDecimal availableReimbursement) {
+        this.availableReimbursement = availableReimbursement;
+    }
 
     public String getUsername() {
         return username;

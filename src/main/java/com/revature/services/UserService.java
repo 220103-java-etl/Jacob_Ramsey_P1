@@ -1,8 +1,10 @@
 package com.revature.services;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import com.revature.models.User;
+import com.revature.repositories.ReimbursementRequestDOA;
 import com.revature.repositories.UserDAO;
 
 /**
@@ -22,11 +24,16 @@ import com.revature.repositories.UserDAO;
  */
 public class UserService {
 	private UserDAO uDOA= new UserDAO();
+
 	/**
 	 *     Should retrieve a User with the corresponding username or an empty optional if there is no match.
      */
 	public Optional<User> getByUsername(String username) {
 		return uDOA.getByUsername(username);
+
+	}
+	public void updateAvailableReimbursement(User u, BigDecimal b){
+		uDOA.updateAvailableReimbursement(b,u);
 
 	}
 }

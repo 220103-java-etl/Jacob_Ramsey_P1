@@ -32,5 +32,11 @@ public enum Status {
         public String toString() {
             return "Denied";
         }
+    },
+    OVERAVAILABLELIM {
+        @Override
+        public String toString() {
+            return "Over Available Limit";
+        }
     }
 }

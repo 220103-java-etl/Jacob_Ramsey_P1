@@ -1,13 +1,8 @@
 package com.revature.repositories;
 
-import com.revature.MockDb.Database;
-import com.revature.exceptions.RegistrationUnsuccessfulException;
-import com.revature.exceptions.UserNameException;
-import com.revature.exceptions.UsernameNotUniqueException;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
-import com.revature.util.FrontEndClass;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -35,7 +30,10 @@ public class UserDAO {
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
                         Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
-                        rs.getDouble("available_reimbursement"));
+                        rs.getBigDecimal("available_reimbursement"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"));
                 return Optional.of(u);
             }
         }catch(SQLException e){
@@ -56,7 +54,10 @@ public class UserDAO {
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
                         Role.valueOf(rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
-                        rs.getDouble("available_reimbursement"));
+                        rs.getBigDecimal("available_reimbursement"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"));
                 return Optional.of(u);
             }
         }catch(SQLException e){
@@ -75,7 +76,7 @@ public class UserDAO {
      * Additional fields may be null.
      */
     public User create(User userToBeRegistered) {
-        String sql = "insert into users values (default, ?, ?,?,?) returning *" ;
+        String sql = "insert into users values (default, ?, ?,?,?,?,?,?) returning *" ;
 
         try(Connection conn=cu.getConnection()){
             PreparedStatement  ps = conn.prepareStatement(sql);
@@ -83,6 +84,10 @@ public class UserDAO {
             ps.setString(2,userToBeRegistered.getPassword());
             ps.setString(3,userToBeRegistered.getRole().toString());
             ps.setDouble(4,userToBeRegistered.getAvailableReimbursement().doubleValue());
+            ps.setString(5,userToBeRegistered.getfName());
+            ps.setString(6,userToBeRegistered.getlName());
+            ps.setString(7,userToBeRegistered.getEmail());
+
             ResultSet rs = ps.executeQuery();
 
             if(rs.next()){
@@ -90,7 +95,10 @@ public class UserDAO {
                         rs.getString("user_name"),
                         rs.getString("pass_word"),
                       Role.valueOf( rs.getString("roles").toUpperCase(Locale.ROOT).replaceAll(" ","_")),
-                        rs.getDouble("available_reimbursement"));
+                        rs.getBigDecimal("available_reimbursement"),
+                        rs.getString("first_name"),
+                        rs.getString("last_name"),
+                        rs.getString("email"));
                 return u;
             }
 
@@ -117,9 +125,13 @@ public class UserDAO {
             while (rs.next()) {
                User a = new User(
 
-                        rs.getString("user_name"),
-                        rs.getString("pass_word"),
-                       Role.valueOf(rs.getString("roles"))
+                       rs.getString("user_name"),
+                       rs.getString("pass_word"),
+                       Role.valueOf(rs.getString("roles")),
+                       rs.getBigDecimal("available_reimbursement"),
+                       rs.getString("first_name"),
+                       rs.getString("last_name"),
+                       rs.getString("email")
                 );
                 users.add(a);
             }

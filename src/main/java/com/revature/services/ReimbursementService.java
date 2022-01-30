@@ -28,7 +28,7 @@ import java.util.List;
  * </ul>
  */
 public class ReimbursementService {
-    ReimbursementRequestDOA reimbursementRequestDOA=new ReimbursementRequestDOA();
+
     ReimbursementDAO reimbursementDAO=new ReimbursementDAO();
     /**
      * <ul>

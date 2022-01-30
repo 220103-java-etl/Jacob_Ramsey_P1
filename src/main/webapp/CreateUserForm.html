@@ -5,11 +5,31 @@
     <title>Title</title>
 </head>
 <body>
-<form method="post" action="/ERS/CreateUser">
-    <label for="User name">Username</label>
+<form method="post" action="/ERS/Register">
+    <label for="First Name">Type Your First Name:</label>
+    <input type="text" name="firstname" id="First Name"><br>
+
+    <label for="Last Name">Type Your Last Name:</label>
+    <input type="text" name="lastname" id="Last Name"><br>
+
+    <label for="Email">Type Your Email:</label>
+    <input type="email" name="email" id="Email"><br>
+
+    <label for="User name">Type Your Username:</label>
     <input type="text" name="username" id="User name"><br>
-    <label for="Password">Password</label>
+
+    <label for="Password">Type Your Password:</label>
     <input type="password" name="password" id="Password"><br>
+
+    <label for="ConfirmPassword">Confirm Your Password:</label>
+    <input type="password" name="confirmpassword" id="ConfirmPassword"><br>
+
+    <label for="employee">Employee</label>
+    <input type="radio" name="role" value="EMPLOYEE" id="employee"><br>
+
+    <label for="finance_manager">Finance Manager</label>
+    <input type="radio" name="role" value="FINANCE_MANAGER" id="finance_manager"><br>
+
     <input type="submit"/><br>
 </form>
 </body>
