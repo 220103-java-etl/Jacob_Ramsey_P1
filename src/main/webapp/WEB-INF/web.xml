@@ -1,0 +1,44 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app>
+    <servlet>
+        <servlet-name>FirstServlet</servlet-name>
+        <servlet-class>com.revature.servelets.ReimbursementRequestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReimReqFinanceManager</servlet-name>
+        <servlet-class>com.revature.servelets.FinanceManagerReimReqCont</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <servlet-class>com.revature.servelets.UserLoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateUser</servlet-name>
+        <servlet-class>com.revature.servelets.CreateUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FirstServlet</servlet-name>
+        <url-pattern>/ReimReq/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>UserLoginServlet</servlet-name>
+        <url-pattern>/Login/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>CreateUser</servlet-name>
+        <url-pattern>/Register/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>ReimReqFinanceManager</servlet-name>
+        <url-pattern>/ReimReqFinanceManager/*</url-pattern>
+    </servlet-mapping>
+
+
+</web-app>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post" action="ReimReq">
+    <label for="eventtype">Choose an Event Type</label>
+
+    <select name="eventtype" id="eventtype">
+        <option value="UNIVERSITY_COURSE">University Course</option>
+        <option value="SEMINAR">Seminar</option>
+        <option value="CERTIFICATION_PREP_CLASS">Certification Prep Class</option>
+        <option value="CERTIFICATION">Certification </option>
+        <option value="TECHNICAL_TRAINING">Technical Training</option>
+        <option value="OTHER">Other</option>
+    </select><br>
+
+    <label for="gradingformat">Choose a Gradeing Format</label>
+
+    <select name="gradeingformat" id="gradingformat">
+        <option value="A,B,C,D,F">A,B,C,D,F</option>
+        <option value="4.0">4.0</option>
+        <option value="Pass/Fail">Pass/Fail</option>
+        <option value="No Grade">No Grade</option>
+    </select><br>
+
+    <label for="DetailDoc">Enter the description of the event and how it is work related</label>
+    <input type="text" name="detaildoc" id="DetailDoc"><br>
+
+    <label for="EventDate">Type the date in which the event will occur</label>
+    <input type="date" name="eventdate" id="EventDate"><br>
+
+    <label for="TotalCost">Type the Cost of Your Event</label>
+    <input type="number" min="0.01" step="0.01" name="totalcost" id="TotalCost"><br>
+
+    <label for="Location">Type the Location of your event in 'Address,Town/City,State,Zip' form</label>
+    <input type="text"  name="location" id="Location"><br>
+
+
+    <input type="submit"/><br>
+</form>
+</body>
+</html>

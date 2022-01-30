@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="get" action="ReimReqFinanceManager/">
+    <input type="submit" title="View all Pending Reimbursement Requests" value="View Pending Reimbursement Requests"/>
+
+</form>
+<form method="post" action="ReimReqFinanceManager/" value="Select a reimbursement form by id and 'validate or invalidate'">
+    <label for="ReimForm">Enter the reimbursement form Id you would like to Approve or Deny</label>
+    <input type="number" name="reimformid" id="ReimForm"><br>
+
+    <select name="validate or invalidate" id="gradingformat">
+        <option value="APPROVED">Approve</option>
+        <option value="DENIED">Deny</option>
+
+    </select><br>
+    <input type="submit" title="Validate or Invalidate a Reimbursement Request" value="Submit Selection"/>
+
+</form>
+
+
+<form method="post" action="ReimReqFinanceManager/" >
+    <label for="ReimAmount">Enter the reimbursement form amount you would like to change</label>
+    <input type="number" min="0.01" step="0.01" name="reimformamount" id="ReimAmount"><br>
+    <label for="ReimAmountId">Enter the formId</label>
+    <input type="number" name="reimformId" id="ReimAmountId"><br>
+    <input type="submit" title="Change a reimbursement request amount" value="submit changes"/>
+
+</form>
+<form method="get" action="Messages.html">
+    <input type="submit" title="Insert a final grade for a Reimbursement Request and approve or Deny It" value="Insert a final grade for a Reimbursement Request and approve or Deny It"/>
+
+</form>
+<form method="get" action="Messages.html">
+    <input type="submit" title="Check Your Messages" value="Check Your Messages"/>
+
+</form>
+</body>
+</html>

@@ -1,6 +1,10 @@
 package com.revature.services;
 
+import com.revature.exceptions.PassWordException;
+import com.revature.exceptions.UserNameException;
+import com.revature.exceptions.UsernameNotUniqueException;
 import com.revature.models.User;
+import com.revature.repositories.UserDAO;
 
 import java.util.Optional;
 
@@ -17,6 +21,7 @@ import java.util.Optional;
  * </ul>
  */
 public class AuthService {
+    private UserDAO userDAO =new UserDAO();
 
     /**
      * <ul>
@@ -28,6 +33,21 @@ public class AuthService {
      * </ul>
      */
     public User login(String username, String password) {
+        Optional<User> u = userDAO.getByUsername(username);
+        if(u.isEmpty()){
+            UserNameException userNameException=new UserNameException("Username does not exist");
+            throw userNameException;
+
+        }
+        if (u.get().getUsername().equals(username)) {
+            if (u.get().getPassword().equals(password)) {
+
+                return u.get();
+            } else {
+                PassWordException passWordException = new PassWordException("Your password was incorrect");
+                throw passWordException;
+            }
+        }
         return null;
     }
 
@@ -45,7 +65,13 @@ public class AuthService {
      * After registration, the id will be a positive integer.
      */
     public User register(User userToBeRegistered) {
-        return null;
+        if(userDAO.getByUsername(userToBeRegistered.getUsername()).isEmpty()){
+        userDAO.create(userToBeRegistered);
+        return userToBeRegistered;}
+        else{
+            UsernameNotUniqueException u=new UsernameNotUniqueException();
+            throw u;
+        }
     }
 
     /**
