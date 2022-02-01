@@ -52,7 +52,7 @@ public class ReimbursementRequestService {
 
     }
 
-    public void updateReimRequestValidatyService(Status status, int userFormId,User userUpdateing){
+    public void updateReimRequestValidatyService(Status status, int userFormId,User userUpdateing)throws SQLException{
         if(Status.DENIED.equals(status)) {
             reimbursementDAO.updateReimRequestValidaty(status, userFormId);
         }
@@ -74,5 +74,17 @@ public class ReimbursementRequestService {
     public BigDecimal updateReimRequestAmount(int Id,BigDecimal b){
         return reimbursementDAO.updateReimRequestAmount(b,Id);
     }
+
+    public String updateReimRequestRelatedDoc(int Formid,String newInfo){
+        return reimbursementDAO.updateReimRequestInfo(newInfo,Formid);
+    }
+
+    public String getAccessOfReqForm(int formId){
+        return reimbursementDAO.getAccessValueForRequestById(formId);
+    }
+    public void updateAccessToForm(String s,int formId){
+        reimbursementDAO.updateFormAccess(s,formId);
+    }
 }
+
 

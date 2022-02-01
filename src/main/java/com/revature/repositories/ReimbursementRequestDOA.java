@@ -35,7 +35,7 @@ public class ReimbursementRequestDOA {
             ps.setString(10,reimbursementRequest.getLocation());
             ResultSet rs = ps.executeQuery();
             userDAO.updateAvailableReimbursement(reimbursementRequest.getReimbursmentAmount(),u);
-            System.out.println("Reimbursment Created and Available reim updated");
+
 
 
         } catch (SQLException s) {
@@ -89,7 +89,7 @@ public class ReimbursementRequestDOA {
                         , Timeing.valueOf(rs.getString("reim_request_timing").toUpperCase(Locale.ROOT).replaceAll(" ", "_")),rs.getString("location"));
                 return Optional.of(r);
             }
-            System.out.println("Reimbursments Retrieved");
+
 
 
         } catch (SQLException s) {
@@ -163,8 +163,26 @@ public class ReimbursementRequestDOA {
 
     }
 
-    public void updateReimRequestValidaty(Status status, int userFormId) {
+    public String updateReimRequestInfo(String info, int Formid) {
         try (Connection conn = cu.getConnection()) {
+
+            String sql = "update reimbursement_request set related_doc=? where id=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, info);
+            ps.setInt(2, Formid);
+            ps.executeQuery();
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return info;
+
+    }
+
+    public void updateReimRequestValidaty(Status status, int userFormId) throws SQLException {
+
+        Connection conn = cu.getConnection();
 
             String sql = "update reimbursement_request set reim_request_status=? where id=? ";
 
@@ -173,16 +191,14 @@ public class ReimbursementRequestDOA {
             ps.setString(1, status.toString());
             ps.setInt(2, userFormId);
             ps.executeQuery();
-            System.out.println("You have successfully changed the form " + userFormId + " to " + status.toString());
-        } catch (SQLException s) {
-            s.printStackTrace();
-        }
+
+
     }
 
     public void deleteReimbursementRequest(int userFormId) {
 
         try (Connection conn = cu.getConnection()) {
-
+            deleteReimbursementRequestValidated(userFormId);
             String sql = "delete from reimbursement_request where id=? ";
 
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -193,6 +209,62 @@ public class ReimbursementRequestDOA {
             System.out.println("You've deleted the form ");
         } catch (SQLException s) {
             s.printStackTrace();
+        }
+
+
+    }
+    public void deleteReimbursementRequestValidated(int userFormId) {
+
+        try (Connection conn = cu.getConnection()) {
+
+            String sql = "delete from reimbursement_req_accepted where reim_form=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+
+            ps.setInt(1, userFormId);
+            ps.executeQuery();
+            System.out.println("You've deleted the form ");
+        } catch (SQLException s) {
+
+            s.printStackTrace();
+        }
+
+
+    }
+
+    public String getAccessValueForRequestById(int formId){
+        String sql = "select * from reimbursement_request where id=?";
+
+        try (Connection conn = cu.getConnection()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, formId);
+            ResultSet rs = ps.executeQuery();
+            String result=null;
+            while (rs.next()) {
+                 result = rs.getString("alter_constraints");
+            }
+            return result;
+
+
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return null;
+    }
+    public void updateFormAccess(String s,int id) {
+        try (Connection conn = cu.getConnection()) {
+
+            String sql = "update reimbursement_request set alter_constraints=? where id=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, s);
+            ps.setInt(2, id);
+            ps.executeQuery();
+        } catch (SQLException m) {
+            m.printStackTrace();
         }
 
 

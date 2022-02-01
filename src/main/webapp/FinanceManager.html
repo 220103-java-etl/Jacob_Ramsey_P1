@@ -3,41 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="StyleSheetForBigForms.css">
 </head>
 <body>
 <form method="get" action="ReimReqFinanceManager/">
-    <input type="submit" title="View all Pending Reimbursement Requests" value="View Pending Reimbursement Requests"/>
+    <input type="submit" title="View all Pending Reimbursement Requests" value="View Pending Requests"/>
 
-</form>
+</form><br>
 <form method="post" action="ReimReqFinanceManager/" value="Select a reimbursement form by id and 'validate or invalidate'">
-    <label for="ReimForm">Enter the reimbursement form Id you would like to Approve or Deny</label>
-    <input type="number" name="reimformid" id="ReimForm"><br>
+    <h1>Validate or Invalidate a pending reimbursement request</h1>
+    <label for="ReimForm">Enter the reimbursement form Id </label>
+    <input type="number" name="reimformid" id="ReimForm">
 
     <select name="validate or invalidate" id="gradingformat">
-        <option value="APPROVED">Approve</option>
-        <option value="DENIED">Deny</option>
+        <option value="APPROVED">Validate</option>
+        <option value="DENIED">Invalidate</option>
 
     </select><br>
-    <input type="submit" title="Validate or Invalidate a Reimbursement Request" value="Submit Selection"/>
+    <input type="submit" title="Validate or Invalidate a Reimbursement Request" value="Submit Selection"/><br>
 
-</form>
+</form><br>
 
 
 <form method="post" action="ReimReqFinanceManager/" >
-    <label for="ReimAmount">Enter the reimbursement form amount you would like to change</label>
+    <h1>Change a reimbursement form request amount</h1>
+    <label for="ReimAmount">Enter the new amount </label>
     <input type="number" min="0.01" step="0.01" name="reimformamount" id="ReimAmount"><br>
-    <label for="ReimAmountId">Enter the formId</label>
+    <label for="ReimAmountId">Enter the Form Id</label>
     <input type="number" name="reimformId" id="ReimAmountId"><br>
-    <input type="submit" title="Change a reimbursement request amount" value="submit changes"/>
+    <input type="submit" title="Change a reimbursement request amount" value="Submit Changes"/><br>
 
-</form>
-<form method="get" action="Messages.html">
-    <input type="submit" title="Insert a final grade for a Reimbursement Request and approve or Deny It" value="Insert a final grade for a Reimbursement Request and approve or Deny It"/>
+</form><br>
+<form method="post" action="Messages/">
 
-</form>
-<form method="get" action="Messages.html">
+    <h1>Request additional info for a form by the form Id</h1>
+    <label for="inf">Info requested:</label>
+    <input type="text"  name="additionalrequest" id="inf"><br>
+
+    <label for="formid">Form Id:</label>
+    <input type="number" name="formid" id="formid"><br>
+    <input type="submit" title="RequestMoreInf" value="Submit Request"/>
+</form><br>
+<form method="post" action="ReimReqFinanceManager/" value="Select a reimbursement form by id and 'validate or invalidate'">
+    <h1>Approve or Deny a validated reimbursement</h1>
+    <label for="ReimFormid1">Enter the reimbursement form Id </label>
+    <input type="number" name="reimformid" id="ReimFormid1">
+
+    <select name="results" id="results">
+        <option value="Passed">Passed</option>
+        <option value="Failed">Failed</option>
+
+    </select><br>
+
+
+    <input type="submit" title="Validate or Invalidate a Reimbursement Request" value="Submit Selection"/><br>
+
+</form><br>
+
+<form method="get" action="Messages/">
     <input type="submit" title="Check Your Messages" value="Check Your Messages"/>
 
-</form>
+</form><br>
 </body>
 </html>
