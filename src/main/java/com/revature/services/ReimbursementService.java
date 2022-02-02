@@ -7,6 +7,7 @@ import com.revature.models.User;
 import com.revature.repositories.ReimbursementDAO;
 import com.revature.repositories.ReimbursementRequestDOA;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,5 +60,12 @@ public class ReimbursementService {
 
         Reimbursement reimbursement=new Reimbursement(reimFormId,Status.PENDING,u);
         reimbursementDAO.addReimbusementDOA(reimbursement);
+    }
+    public void updateStatus(Status s, int Id) throws SQLException {
+        reimbursementDAO.updateStatus(s,Id);
+    }
+
+    public void updateGrade(String s, int Id){
+        reimbursementDAO.updateFinalGrade(s,Id);
     }
 }

@@ -78,8 +78,8 @@ public class ReimbursementDAO {
      *     <li>Should return a Reimbursement object with updated information.</li>
      * </ul>
      */
-    public Reimbursement updateStatus(Status status, int userFormId) {
-        try (Connection conn = cu.getConnection()) {
+    public Reimbursement updateStatus(Status status, int userFormId) throws SQLException {
+         Connection conn = cu.getConnection();
 
             String sql = "update reimbursement_req_accepted set reimbursement_status=? where reim_form=? ";
 
@@ -90,10 +90,8 @@ public class ReimbursementDAO {
             ps.executeQuery();
             System.out.println("You have successfully changed the form " + userFormId + " to " + status.toString());
             return getById(userFormId).get();
-        } catch (SQLException s) {
-            s.printStackTrace();
-        }
-        return null;
+
+
     }
 
     public Reimbursement updateFinalGrade(String grade, int userFormId) {

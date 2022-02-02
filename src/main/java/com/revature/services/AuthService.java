@@ -69,7 +69,7 @@ public class AuthService {
         userDAO.create(userToBeRegistered);
         return userToBeRegistered;}
         else{
-            UsernameNotUniqueException u=new UsernameNotUniqueException();
+            UsernameNotUniqueException u=new UsernameNotUniqueException("User name is not unique");
             throw u;
         }
     }

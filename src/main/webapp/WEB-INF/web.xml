@@ -18,6 +18,14 @@
         <servlet-name>CreateUser</servlet-name>
         <servlet-class>com.revature.servelets.CreateUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Messages</servlet-name>
+        <servlet-class>com.revature.servelets.MessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Messages</servlet-name>
+        <url-pattern>/Messages/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FirstServlet</servlet-name>
         <url-pattern>/ReimReq/</url-pattern>

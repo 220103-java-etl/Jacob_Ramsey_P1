@@ -3,20 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="StyleSheetForBigForms.css">
+
 </head>
 <body>
-<form method="get" action="ReimReq/">
-        <input type="submit" title="View Your Requests" value="View Your Reimbursement Requests"/>
+    <input type = "button" onclick = "getData('ReimReq/','GET')" value = "Check Your Reimbursement Requests"><br>
+<table id="insertData"></table>
 
-</form>
 <form method="get" action="ReimReq.html">
-    <input type="submit" title="Create A Reimbursement Request" value="Create A Reimbursement Request"/>
+    <input type="submit" title="Create Request" value="Create Request"/>
 
-</form>
-<form method="get" action="Messages.html">
-    <input type="submit" title="Check Your Messages" value="Check Your Messages"/>
+</form><br>
+<form method="post" action="ReimReq/">
+    <h1>Input additonal information below</h1>
+    <label for="updateInfo"> Type the additional information requested</label>
+    <input type="text" name="updateInfo" id="updateInfo"><br>
 
-</form>
+    <label for="updateInfo2"> Enter the form Id here: </label><br>
+    <input type="number" name="formId" id="updateInfo2"><br>
 
+    <input type="submit" title="Submit Updates" value="Submit Updates"/>
+
+</form><br>
+<form method="post" action="ReimReq/">
+    <h1>Your reimbursement amount has been changed type the form id below and press delete to delete request</h1>
+
+    <label for="deleteform1"> Enter the form Id here: </label><br>
+    <input type="number" name="formIdDelete" id="deleteform1"><br>
+
+    <input type="submit" title="Submit Updates" value="Delete Form"/>
+
+</form><br>
+<input type = "button" onclick = "getData2('Messages/','GET')" value = "View Messages"><br>
+<table id="insertData2"></table>
+<script src= "SomeJs.js"></script>
 </body>
 </html>

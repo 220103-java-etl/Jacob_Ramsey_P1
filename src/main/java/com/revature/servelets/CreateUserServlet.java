@@ -21,25 +21,33 @@ public class CreateUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    BigDecimal b=new BigDecimal(1000);
-        BigDecimal a=new BigDecimal(0);
-        HttpSession session = req.getSession();
-      String userName=  req.getParameter("username");
-      String passWord=req.getParameter("password");
-      String confirmPass=  req.getParameter("confirmpass");
-      String firstName=req.getParameter("firstname");
-      String lastName=req.getParameter("lastname");
-      String email=req.getParameter("email");
-        Role userRole=Role.valueOf(req.getParameter("role"));
+        try {
+            BigDecimal b = new BigDecimal(1000);
+            BigDecimal a = new BigDecimal(0);
+            HttpSession session = req.getSession();
+            String userName = req.getParameter("username");
+            String passWord = req.getParameter("password");
+            String confirmPass = req.getParameter("confirmpass");
+            String firstName = req.getParameter("firstname");
+            String lastName = req.getParameter("lastname");
+            String email = req.getParameter("email");
+            Role userRole = Role.valueOf(req.getParameter("role"));
 
-        if(userRole.equals(Role.EMPLOYEE)) {
-            User u = new User(userName, passWord, userRole, b,firstName,lastName,email);
-            aS.register(u);
-            session.setAttribute("user",u);
-        }else{
-            User u = new User(userName, passWord, userRole, a,firstName,lastName,email);
-            aS.register(u);
-            session.setAttribute("user",u);
+            if (userRole.equals(Role.EMPLOYEE)) {
+                User u = new User(userName, passWord, userRole, b, firstName, lastName, email);
+                aS.register(u);
+                session.setAttribute("user", u);
+            } else {
+                User u = new User(userName, passWord, userRole, a, firstName, lastName, email);
+                aS.register(u);
+                session.setAttribute("user", u);
+            }
+        } catch (Exception e) {
+            String exception = e.getMessage();
+            resp.setContentType("text/html");
+            resp.getWriter().print("<h1>" + exception + "</h1><br>" + " " +
+                    "<p> Click the link to go back and <a href=http://localhost:8086/ERS/>Login</a>");
         }
+
     }
 }

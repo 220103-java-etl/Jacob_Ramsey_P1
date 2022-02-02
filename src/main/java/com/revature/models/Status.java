@@ -33,7 +33,7 @@ public enum Status {
             return "Denied";
         }
     },
-    OVERAVAILABLELIM {
+    OVER_AVAILABLE_LIMIT {
         @Override
         public String toString() {
             return "Over Available Limit";
