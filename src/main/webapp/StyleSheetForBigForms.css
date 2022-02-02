@@ -50,6 +50,9 @@ input[type=number] {
     font: 3em/3em Arial, Helvetica, sans-serif;
     
 }
+table, th, td {
+  border: 1px solid black;
+}
 body {
   background-color: rgb(122, 139, 145);
   text-align:left;

@@ -7,10 +7,9 @@
 
 </head>
 <body>
-<form method="get" action="ReimReq/">
-        <input type="submit" title="View Your Requests" value="Your Reimbursements"/>
+    <input type = "button" onclick = "getData('ReimReq/','GET')" value = "Check Your Reimbursement Requests"><br>
+<table id="insertData"></table>
 
-</form><br>
 <form method="get" action="ReimReq.html">
     <input type="submit" title="Create Request" value="Create Request"/>
 
@@ -35,10 +34,8 @@
     <input type="submit" title="Submit Updates" value="Delete Form"/>
 
 </form><br>
-<form method="get" action="Messages/">
-    <input type="submit" title="Check Your Messages" value="Check Your Messages"/>
-
-</form>
-
+<input type = "button" onclick = "getData2('Messages/','GET')" value = "View Messages"><br>
+<table id="insertData2"></table>
+<script src= "SomeJs.js"></script>
 </body>
 </html>

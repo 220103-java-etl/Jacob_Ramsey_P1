@@ -1,6 +1,7 @@
 package com.revature.servelets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.revature.exceptions.UserNameException;
 import com.revature.models.*;
 import com.revature.services.ReimbursementRequestService;
@@ -32,6 +33,7 @@ public class ReimbursementRequestServlet extends HttpServlet {
         System.out.println(user);
         List<ReimbursementRequest> r = reimbursementService.getReimbursementReq(user);
         System.out.println(r);
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         String responseBody = objectMapper.writeValueAsString(r);
         resp.setContentType("application/json");
         resp.getWriter().print(responseBody);

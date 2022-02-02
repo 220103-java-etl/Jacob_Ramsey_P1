@@ -3,6 +3,7 @@ package com.revature.models;
 
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Objects;
  * @author Center of Excellence
  */
 
-public class AbstractUser {
+public class AbstractUser  {
     private BigDecimal availableReimbursement;
     private int id;
     private String username;
