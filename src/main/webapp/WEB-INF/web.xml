@@ -22,13 +22,21 @@
         <servlet-name>Messages</servlet-name>
         <servlet-class>com.revature.servelets.MessagesServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ValReimReq</servlet-name>
+        <servlet-class>com.revature.servelets.ValidatedReimReq</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ValReimReq</servlet-name>
+        <url-pattern>/ValReimReq/*</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Messages</servlet-name>
         <url-pattern>/Messages/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>FirstServlet</servlet-name>
-        <url-pattern>/ReimReq/</url-pattern>
+        <url-pattern>/ReimReq/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

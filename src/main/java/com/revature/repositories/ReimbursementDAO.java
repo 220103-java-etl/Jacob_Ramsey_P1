@@ -18,23 +18,24 @@ public class ReimbursementDAO {
     /**
      * Should retrieve a Reimbursement from the DB with the corresponding id or an empty optional if there is no match.
      */
-    public Optional<Reimbursement> getById(int id) {
-        String sql = "select * from reimbursement_req_accepted where reim_form=?";
+    public List<Reimbursement> getByResolverId(int id) {
+        String sql = "select * from reimbursement_req_accepted where form_resolver=?";
 
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);
-
+            List<Reimbursement> reimbursements=new ArrayList<>();
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 Reimbursement r = new Reimbursement(
                         rs.getInt("reim_form"),
-                        Status.valueOf(rs.getString("reimbursement_status")),
-                        userDAO.getByUserId(rs.getInt("form_resolver")).get());
-                return Optional.of(r);
+                        Status.valueOf(rs.getString("reimbursement_status").toUpperCase(Locale.ROOT)),
+                        userDAO.getByUserId(rs.getInt("form_resolver")).get(),rs.getString("inserted_final_grade"));
+                reimbursements.add(r);
             }
-            System.out.println("Reimbursments Retrieved");
+            return reimbursements;
+
 
 
         } catch (SQLException s) {
@@ -58,8 +59,8 @@ public class ReimbursementDAO {
                 Reimbursement r =
                         new Reimbursement(
                                 rs.getInt("reim_form"),
-                                Status.valueOf(rs.getString("reimbursement_status")),
-                               userDAO.getByUserId(rs.getInt("form_resolver")).get());
+                                Status.valueOf(rs.getString("reimbursement_status").toUpperCase(Locale.ROOT)),
+                               userDAO.getByUserId(rs.getInt("form_resolver")).get(),rs.getString("inserted_final_grade"));
                 userReim.add(r);
             }
 
@@ -78,7 +79,7 @@ public class ReimbursementDAO {
      *     <li>Should return a Reimbursement object with updated information.</li>
      * </ul>
      */
-    public Reimbursement updateStatus(Status status, int userFormId) throws SQLException {
+    public void updateStatus(Status status, int userFormId) throws SQLException {
          Connection conn = cu.getConnection();
 
             String sql = "update reimbursement_req_accepted set reimbursement_status=? where reim_form=? ";
@@ -88,13 +89,13 @@ public class ReimbursementDAO {
             ps.setString(1, status.toString());
             ps.setInt(2, userFormId);
             ps.executeQuery();
-            System.out.println("You have successfully changed the form " + userFormId + " to " + status.toString());
-            return getById(userFormId).get();
+
+
 
 
     }
 
-    public Reimbursement updateFinalGrade(String grade, int userFormId) {
+    public void updateFinalGrade(String grade, int userFormId) {
         try (Connection conn = cu.getConnection()) {
 
             String sql = "update reimbursement_req_accepted set final_grade_completion_of_pres=? where reim_form=? ";
@@ -104,12 +105,29 @@ public class ReimbursementDAO {
             ps.setString(1, grade);
             ps.setInt(2, userFormId);
             ps.executeQuery();
-            System.out.println("You have successfully changed the form " + userFormId + " to " + grade);
-            return getById(userFormId).get();
+
+
         } catch (SQLException s) {
             s.printStackTrace();
         }
-        return null;
+
+    }
+    public void insertFinalGrade(String grade, int userFormId) {
+        try (Connection conn = cu.getConnection()) {
+
+            String sql = "update reimbursement_req_accepted set inserted_final_grade=? where reim_form=? ";
+
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, grade);
+            ps.setInt(2, userFormId);
+            ps.executeQuery();
+
+
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+
     }
 
 

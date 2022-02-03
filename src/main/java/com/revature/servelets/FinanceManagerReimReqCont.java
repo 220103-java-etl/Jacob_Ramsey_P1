@@ -41,15 +41,15 @@ public class FinanceManagerReimReqCont extends HttpServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             UserService userService = new UserService();
             ReimbursementRequestService reimbursementService = new ReimbursementRequestService();
-            StringBuilder uriString = new StringBuilder(req.getRequestURI());
+
 
 
             List<ReimbursementRequest> r = reimbursementService.getAllReimReq();
-            System.out.println(r);
+
 
             objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
            String responseBody=objectMapper.writeValueAsString(r);
-            System.out.println(responseBody);
+
             resp.setContentType("application/json");
             resp.getWriter().print(responseBody);
         } catch (Exception e) {
@@ -73,7 +73,10 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                 int formId = Integer.valueOf(req.getParameter("reimformid"));
                 Status status = Status.valueOf(req.getParameter("validate or invalidate"));
 
-                reimbursementRequestService.updateReimRequestValidatyService(status, formId, approver);
+                reimbursementRequestService.updateReimRequestValidatyService(status, formId, approver,"");
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1> The Status of the Request has been changed</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/FinanceManager.html>Finance Manager Interface</a>");
             } else if (req.getParameter("reimformamount") != null) {
                 int formId = Integer.valueOf(req.getParameter("reimformId"));
                 BigDecimal reimAvailAmount = BigDecimal.valueOf(Double.valueOf(req.getParameter("reimformamount")));
@@ -89,6 +92,9 @@ public class FinanceManagerReimReqCont extends HttpServlet {
 
                     userService.updateAvailableReimbursement(u, updateUserReimAvail.negate());
                     reimbursementRequestService.updateReimRequestAmount(formId, reimAvailAmount);
+                    resp.setContentType("text/html");
+                    resp.getWriter().print("<h1> You've changed the Reimbursement Request Amount</h1><br>" + " " +
+                            "<p> Click the link to go back and <a href=http://localhost:8086/ERS/FinanceManager.html>Finance Manager Interface</a>");
                 } else {
 
                     User changingReimUser = (User) session.getAttribute("user");
@@ -98,7 +104,7 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                     BigDecimal currentAvailableReim = u.getAvailableReimbursement();
 
                     if (currentAvailableReim.add(updateUserReimAvail).doubleValue() < 0.0) {
-                        reimbursementRequestService.updateReimRequestValidatyService(Status.OVER_AVAILABLE_LIMIT, r.getId(), approver);
+                        reimbursementRequestService.updateReimRequestValidatyService(Status.OVER_AVAILABLE_LIMIT, r.getId(), approver,"");
                     }
 
                     messageService.sendMessageToUser(changingReimUser.getId(), u.getId(), message);
@@ -107,6 +113,9 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                     userService.updateAvailableReimbursement(u, updateUserReimAvail.negate());
                     reimbursementRequestService.updateReimRequestAmount(formId, reimAvailAmount);
                     reimbursementRequestService.updateAccessToForm("Delete", formId);
+                    resp.setContentType("text/html");
+                    resp.getWriter().print("<h1> You've changed the Reimbursement Request Amount</h1><br>" + " " +
+                            "<p> Click the link to go back and <a href=http://localhost:8086/ERS/FinanceManager.html>Finance Manager Interface</a>");
                 }
             } else if (req.getParameter("results") != null) {
                 int formId = Integer.valueOf(req.getParameter("reimformid"));
@@ -119,6 +128,9 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                     reimbursementService.updateStatus(Status.DENIED, formId);
                 }
 
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1> You've verified the grade is passing</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/FinanceManager.html>Finance Manager Interface</a>");
             }
 
 

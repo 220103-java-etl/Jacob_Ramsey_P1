@@ -1,11 +1,9 @@
 package com.revature.services;
 
 import com.revature.models.Reimbursement;
-import com.revature.models.ReimbursementRequest;
 import com.revature.models.Status;
 import com.revature.models.User;
 import com.revature.repositories.ReimbursementDAO;
-import com.revature.repositories.ReimbursementRequestDOA;
 
 import java.sql.SQLException;
 import java.util.Collections;
@@ -30,7 +28,8 @@ import java.util.List;
  */
 public class ReimbursementService {
 
-    ReimbursementDAO reimbursementDAO=new ReimbursementDAO();
+    ReimbursementDAO reimbursementDAO = new ReimbursementDAO();
+
     /**
      * <ul>
      *     <li>Should ensure that the user is logged in as a Finance Manager</li>
@@ -40,7 +39,7 @@ public class ReimbursementService {
      *     <li>Should persist the updated reimbursement status with resolver information</li>
      *     <li>Must throw exception if persistence is unsuccessful</li>
      * </ul>
-     *
+     * <p>
      * Note: unprocessedReimbursement will have a status of PENDING, a non-zero ID and amount, and a non-null Author.
      * The Resolver should be null. Additional fields may be null.
      * After processing, the reimbursement will have its status changed to either APPROVED or DENIED.
@@ -56,16 +55,25 @@ public class ReimbursementService {
         return Collections.emptyList();
     }
 
-    public void addReimbusementService(  int reimFormId, User u){
+    public List<Reimbursement> getByReimbursementResolver(int resolverId) {
+        return reimbursementDAO.getByResolverId(resolverId);
+    }
 
-        Reimbursement reimbursement=new Reimbursement(reimFormId,Status.PENDING,u);
+    public void addReimbusementService(int reimFormId, User u, String s, String s1) {
+
+        Reimbursement reimbursement = new Reimbursement(reimFormId, Status.PENDING, u,s);
         reimbursementDAO.addReimbusementDOA(reimbursement);
     }
+
     public void updateStatus(Status s, int Id) throws SQLException {
-        reimbursementDAO.updateStatus(s,Id);
+        reimbursementDAO.updateStatus(s, Id);
     }
 
-    public void updateGrade(String s, int Id){
-        reimbursementDAO.updateFinalGrade(s,Id);
+    public void updateGrade(String s, int Id) {
+        reimbursementDAO.updateFinalGrade(s, Id);
+    }
+
+    public void insertFinalGrade(String s,int i) {
+        reimbursementDAO.insertFinalGrade(s,i);
     }
 }

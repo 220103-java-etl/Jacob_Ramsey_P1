@@ -33,14 +33,20 @@ public class CreateUserServlet extends HttpServlet {
             String email = req.getParameter("email");
             Role userRole = Role.valueOf(req.getParameter("role"));
 
-            if (userRole.equals(Role.EMPLOYEE)) {
+            if(userRole.equals(Role.EMPLOYEE)) {
                 User u = new User(userName, passWord, userRole, b, firstName, lastName, email);
                 aS.register(u);
                 session.setAttribute("user", u);
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1>You've Successfully Registered !</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/LoginFile.html>ReLogin</a>");
             } else {
                 User u = new User(userName, passWord, userRole, a, firstName, lastName, email);
                 aS.register(u);
                 session.setAttribute("user", u);
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1>You've Successfully Registered !</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/LoginFile.html>ReLogin</a>");
             }
         } catch (Exception e) {
             String exception = e.getMessage();

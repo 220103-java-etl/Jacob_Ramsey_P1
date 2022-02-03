@@ -24,26 +24,27 @@ public class AbstractReimbursement {
     private int id;
     private Status status;
     private User resolver;
-    private char finalGrade;
+    private String finalGrade;
 
 
     public AbstractReimbursement() {
         super();
     }
 
-    public AbstractReimbursement(int id, Status status, User resolver) {
+    public AbstractReimbursement(int id, Status status, User resolver,String finalGrade) {
         super();
         this.id = id;
         this.status = status;
         this.resolver = resolver;
+        this.finalGrade=finalGrade;
 
     }
 
-    public char getFinalGrade() {
+    public String getFinalGrade() {
         return finalGrade;
     }
 
-    public void setFinalGrade(char finalGrade) {
+    public void setFinalGrade(String finalGrade) {
         this.finalGrade = finalGrade;
     }
 

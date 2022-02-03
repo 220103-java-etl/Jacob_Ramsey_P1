@@ -3,6 +3,7 @@ package com.revature.servelets;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.ReimbursementRequestService;
 import com.revature.services.UserService;
 
 import javax.servlet.ServletException;
@@ -14,9 +15,10 @@ import java.io.IOException;
 
 public class UserLoginServlet extends HttpServlet {
     AuthService authService = new AuthService();
-
+    ReimbursementRequestService reimbursementRequestService=new ReimbursementRequestService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        reimbursementRequestService.updateReimReqTimeing();
         resp.sendRedirect("LoginFile.html");
 
 

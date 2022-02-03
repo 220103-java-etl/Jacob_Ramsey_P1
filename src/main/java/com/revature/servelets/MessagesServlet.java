@@ -47,6 +47,9 @@ public class MessagesServlet extends HttpServlet {
             String message = currentUser.getfName() + " " + currentUser.getlName() + " is requesting :" + req.getParameter("additionalrequest") +
                     " for Reimbursement form event happeining on the " + currentForm.getDateOfEvent() + " with the Id of: " + currentForm.getId();
             messageService.sendMessageToUser(currentUser.getId(), currentForm.getUser().getId(), message);
+            resp.setContentType("text/html");
+            resp.getWriter().print("<h1> Your request for an update on the request form has been sent</h1><br>" + " " +
+                    "<p> Click the link to go back and <a href=http://localhost:8086/ERS/FinanceManager.html>Finance Manager Interface</a>");
             reimbursementRequestService.updateAccessToForm("True", currentForm.getId());
 
 

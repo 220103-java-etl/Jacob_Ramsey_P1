@@ -14,12 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ReimbursementRequestServlet extends HttpServlet {
     ObjectMapper objectMapper = new ObjectMapper();
     UserService userService = new UserService();
     ReimbursementRequestService reimbursementService = new ReimbursementRequestService();
+   public static Map<EventType,BigDecimal> mapingReq=new HashMap<>();
+
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,20 +47,33 @@ public class ReimbursementRequestServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         try{
         HttpSession session = req.getSession(false);
         User currentUser = (User) session.getAttribute("user");
         if (req.getParameter("eventtype") != null) {
-
-            ReimbursementRequest reimbursementRequest = new ReimbursementRequest(EventType.valueOf(req.getParameter("eventtype")),
+            mapingReq.put(EventType.UNIVERSITY_COURSE,new BigDecimal(.8));
+            mapingReq.put(EventType.SEMINAR,new BigDecimal(.60));
+            mapingReq.put(EventType.CERTIFICATION,new BigDecimal(1));
+            mapingReq.put(EventType.CERTIFICATION_PREP_CLASS,new BigDecimal(.75));
+            mapingReq.put(EventType.TECHNICAL_TRAINING,new BigDecimal(.90));
+            mapingReq.put(EventType.OTHER,new BigDecimal(.30));
+            EventType eventType=EventType.valueOf(req.getParameter("eventtype"));
+            ReimbursementRequest reimbursementRequest = new ReimbursementRequest(eventType,
                     req.getParameter("gradeingformat"), req.getParameter("detaildoc"), (User) session.getAttribute("user"), req.getParameter("eventdate"),
-                    BigDecimal.valueOf(Double.valueOf(req.getParameter("totalcost"))), Status.PENDING, Timeing.NORMAL, req.getParameter("location"));
+                    BigDecimal.valueOf(Double.valueOf(req.getParameter("totalcost"))).multiply(mapingReq.get(eventType)), Status.PENDING, Timeing.NORMAL, req.getParameter("location"));
+
             if((reimbursementRequest.getDateOfEvent().getTime()/86400000)-(reimbursementRequest.getCurrentDate().getTime()/86400000)<=7)
             {
-                resp.sendRedirect("/ERS/ReimReq.html");
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1> You've missed the valid time to submit this request</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/Employee.html>Employee Interface</a>");
             }
             else {
-                reimbursementService.reimbursementCreate((User) session.getAttribute("user"), reimbursementRequest);
+                reimbursementService.reimbursementCreate((User)session.getAttribute("user"), reimbursementRequest);
+                resp.setContentType("text/html");
+                resp.getWriter().print("<h1> Your form has been created</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/LoginFile.html>ReLogin</a>");
             }
         } else if (req.getParameter("updateInfo") != null) {
 
@@ -73,7 +91,9 @@ public class ReimbursementRequestServlet extends HttpServlet {
                 }
                 if (reimReqOwnership == true) {
                     reimbursementService.updateReimRequestRelatedDoc(formid, updateInfo);
-
+                    resp.setContentType("text/html");
+                    resp.getWriter().print("<h1> Your form has upadated</h1><br>" + " " +
+                            "<p> Click the link to go back and <a href=http://localhost:8086/ERS/Employee.html>Employee Interface</a>");
                 }
 
             } else {
@@ -88,6 +108,10 @@ public class ReimbursementRequestServlet extends HttpServlet {
            ReimbursementRequest r = reimbursementService.getReimReqById(deleteForm).get();
             if (access.equals("Delete") && r.getUser().getId() == currentUser.getId()) {
                 reimbursementService.deleteReimRequest(deleteForm);
+                resp.setContentType("text/html");
+                resp.getWriter().print(
+                "<h1> Your form has been deleted</h1><br>" + " " +
+                        "<p> Click the link to go back and <a href=http://localhost:8086/ERS/Employee.html>Employee Interface</a>");
 
             } else {
                 UserNameException exception = new UserNameException("You do not have permission to delete");
