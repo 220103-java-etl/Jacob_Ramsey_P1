@@ -6,9 +6,11 @@
     <link rel="stylesheet" href="StyleSheetForBigForms.css">
 </head>
 <body>
-<input type = "button" onclick = "getData('ReimReqFinanceManager/','GET')" value = "View Pending Reimbursement Request"><br>
+<input type = "button" onclick = "getData('ReimReqFinanceManager','GET','insertData')" value = "View Pending Reimbursement Request"><br>
 <table id="insertData"></table>
-   
+<input type = "button" onclick = "getData('ValReimReq/','GET','insertData2')" value = "View Your Validated Reimbursement Request"><br>
+<table id="insertData2"></table>
+
 
 <input type = "button" onclick = "Display('form1')" value = "Validate or Invalidate a Reimbursement Request Form"><br>
 <form method="post" action="ReimReqFinanceManager/" value="Select a reimbursement form by id and 'validate or invalidate'" id="form1">
@@ -25,6 +27,8 @@
     <input type="submit" title="Validate or Invalidate a Reimbursement Request" value="Submit Selection"/><br>
 
 </form><br>
+
+
 
 <input type = "button" onclick = "Display1('form2')" value = "Change a Reimbursement Request Amount"><br>
 <form method="post" action="ReimReqFinanceManager/" id="form2" >

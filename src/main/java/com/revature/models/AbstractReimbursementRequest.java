@@ -131,13 +131,18 @@ public class AbstractReimbursementRequest {
     @Override
     public String toString() {
         return "AbstractReimbursementRequest{" +
-                "Reimbursment Amount=" + reimbursmentAmount +
-                ", EventType=" + eventType +
-                ", Gradeing Format='" + gradeingFormat + '\'' +
-                ", Work Related Document='" + locAndWorkRelationDoc + '\'' +
-                ", Current Date=" + currentDate.toString() +
-                ", User=" + u +
-                ", Date Of Event=" + dateOfEvent.toString()+
+                "status=" + status +
+                ", timeing=" + timeing +
+                ", reimbursmentAmount=" + reimbursmentAmount +
+                ", reimbursmentRub=" + reimbursmentRub +
+                ", eventType=" + eventType +
+                ", gradeingFormat='" + gradeingFormat + '\'' +
+                ", locAndWorkRelationDoc='" + locAndWorkRelationDoc + '\'' +
+                ", currentDate=" + currentDate +
+                ", u=" + u +
+                ", id=" + id +
+                ", location='" + location + '\'' +
+                ", dateOfEvent=" + dateOfEvent +
                 '}';
     }
 }

@@ -99,8 +99,8 @@ public class ReimbursementRequestDOA {
 
     }
 
-    public List<ReimbursementRequest> reimbursementRequestGetAllOpenRequest() {
-        String sql = "select * from reimbursement_request where reim_request_status='Pending'";
+    public List<ReimbursementRequest> reimbursementRequestGetAllRequest() {
+        String sql = "select * from reimbursement_request ";
         List<ReimbursementRequest> userReimRequest = new ArrayList<>();
         try (Connection conn = cu.getConnection()) {
             PreparedStatement ps = conn.prepareStatement(sql);

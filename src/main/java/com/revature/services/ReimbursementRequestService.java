@@ -41,7 +41,7 @@ public class ReimbursementRequestService {
     }
 
     public void updateReimReqTimeing() {
-        List<ReimbursementRequest> arrayList=reimbursementDAO.reimbursementRequestGetAllOpenRequest();
+        List<ReimbursementRequest> arrayList=reimbursementDAO.reimbursementRequestGetAllRequest();
         Date current=new java.sql.Date(System.currentTimeMillis());
         for(ReimbursementRequest r:arrayList){
             if((r.getDateOfEvent().getTime()/86400000)-(current.getTime()/86400000)<=14){
@@ -52,12 +52,13 @@ public class ReimbursementRequestService {
 
     }
 
-    public void updateReimRequestValidatyService(Status status, int userFormId,User userUpdateing)throws SQLException{
+    public void updateReimRequestValidatyService(Status status, int userFormId,User userUpdateing,String finalGrade)throws SQLException{
         if(Status.DENIED.equals(status)) {
             reimbursementDAO.updateReimRequestValidaty(status, userFormId);
         }
         else{
-            reimbursement.addReimbusementService(userFormId,userUpdateing);
+            String s="default";
+            reimbursement.addReimbusementService(userFormId,userUpdateing,finalGrade,s);
             reimbursementDAO.updateReimRequestValidaty(status, userFormId);
         }
 
@@ -68,7 +69,7 @@ public class ReimbursementRequestService {
     }
 
     public List<ReimbursementRequest> getAllReimReq(){
-        return reimbursementDAO.reimbursementRequestGetAllOpenRequest();
+        return reimbursementDAO.reimbursementRequestGetAllRequest();
     }
 
     public BigDecimal updateReimRequestAmount(int Id,BigDecimal b){
