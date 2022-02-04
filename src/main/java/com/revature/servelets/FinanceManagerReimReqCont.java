@@ -150,4 +150,9 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                     "<p> Click the link to go back and <a href='http://localhost:8086/ERS/FinanceManager.html'>Finance Manager Interface</a>");
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPut(req, resp);
+    }
 }

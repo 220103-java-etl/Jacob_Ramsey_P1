@@ -77,18 +77,19 @@ function getData(urls,methods,id) {
                  for( var i in rJson[0]){
                     let title = document.createElement('th')
                     let x=String(i).toUpperCase();
-                    console.log(x);
+                   
                      title.innerHTML=x;
                     tableRow1.append(title)
                     insertSection.append(tableRow1);
                 }
                 
              
-                
-                    
+          
+
                 for(let m in rJson){
                         let tableRowAbs=document.createElement('tr');
-                       
+                        tableRowAbs.id=rJson[m].id;
+                
                         let keys=Object.keys(rJson[0])
                         for(let k of keys){
                             
@@ -106,12 +107,18 @@ function getData(urls,methods,id) {
                                 tableDef.innerHTML=p;
                                 tableRowAbs.append(tableDef);
                                  insertSection.append(tableRowAbs);
-                                }}
+                                
+                                }
+                                
+                                
+                                }
                   
-                    
-                    
+                                
+                               
 
                 }
+                
+
                 
 
             
@@ -122,6 +129,101 @@ function getData(urls,methods,id) {
         
         
     }
+    
+    
+    
+
+
+}
+}
+function getData3(urls,methods,id,formid) {
+
+    let url = urls;
+
+    
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = receiveData;
+
+    xhr.open(methods, url, true) 
+    xhr.send();
+
+    function receiveData() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            let r = xhr.responseText;
+            
+
+            rJson = JSON.parse(r);
+          
+            let insertSection=document.getElementById(id);
+                insertSection.innerHTML=""
+            
+            
+            let tableRow1=document.createElement('tr')
+                 for( var i in rJson[0]){
+                    let title = document.createElement('th')
+                    let x=String(i).toUpperCase();
+                    console.log(x);
+                     title.innerHTML=x;
+                    tableRow1.append(title)
+                    insertSection.append(tableRow1);
+                }
+                
+             
+            theForm=document.getElementById(formid)   
+            dropDownMenu=document.createElement('select') 
+            dropDownMenu.innerHTML=""
+            dropDownMenu.name='reimformid'
+            dropDownMenu.title='Select a Form Id'
+            dropDownMenu.id="dropDown"
+
+                for(let m in rJson){
+                        let tableRowAbs=document.createElement('tr');
+                        tableRowAbs.id=rJson[m].id;
+                        option=document.createElement('option') 
+                        option.value=rJson[m].id;
+                        option.innerHTML=rJson[m].id
+                        dropDownMenu.append(option);
+                        let keys=Object.keys(rJson[0])
+                        for(let k of keys){
+                            
+                                let tableDef = document.createElement('td');
+                                let p=rJson[m][String(k)];
+                            if(typeof p=='object'){
+
+                                tableDef.innerHTML=p['fName']+" "+p['lName']+", "+p['availableReimbursement'];
+                           
+                                tableRowAbs.append(tableDef);
+                                insertSection.append(tableRowAbs);
+
+                             }else{
+                                
+                                tableDef.innerHTML=p;
+                                tableRowAbs.append(tableDef);
+                                 insertSection.append(tableRowAbs);
+                                
+                                }
+                                
+                                
+                                }
+                  
+                                theForm.append(dropDownMenu);
+                               
+
+                }
+                
+
+                
+
+            
+
+            
+
+           
+        
+        
+    }
+    
     
     
 
