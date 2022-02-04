@@ -114,7 +114,7 @@ function getData(urls,methods,id) {
                                 }
                   
                                 
-                                console.log(document.getElementById('57').cells[0].innerHTML);
+                               
 
                 }
                 
