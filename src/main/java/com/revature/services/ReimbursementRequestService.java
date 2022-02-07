@@ -56,6 +56,10 @@ public class ReimbursementRequestService {
         if(Status.DENIED.equals(status)) {
             reimbursementDAO.updateReimRequestValidaty(status, userFormId);
         }
+        else if(Status.OVER_AVAILABLE_LIMIT.equals(status)){
+
+            reimbursementDAO.updateReimRequestValidaty(status, userFormId);
+        }
         else{
             String s="default";
             reimbursement.addReimbusementService(userFormId,userUpdateing,finalGrade,s);

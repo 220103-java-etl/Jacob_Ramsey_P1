@@ -103,15 +103,19 @@ public class FinanceManagerReimReqCont extends HttpServlet {
                             + r.getReimbursmentAmount() + " to " + reimAvailAmount;
                     BigDecimal currentAvailableReim = u.getAvailableReimbursement();
 
-                    if (currentAvailableReim.add(updateUserReimAvail).doubleValue() < 0.0) {
-                        reimbursementRequestService.updateReimRequestValidatyService(Status.OVER_AVAILABLE_LIMIT, r.getId(), approver,"");
-                    }
+                        if (currentAvailableReim.add(updateUserReimAvail).doubleValue() < 0.0) {
+
+                            reimbursementRequestService.updateReimRequestValidatyService(Status.OVER_AVAILABLE_LIMIT, r.getId(), approver, "");
+
+                        }
 
                     messageService.sendMessageToUser(changingReimUser.getId(), u.getId(), message);
-                    System.out.println(u.getAvailableReimbursement().doubleValue());
+
 
                     userService.updateAvailableReimbursement(u, updateUserReimAvail.negate());
+
                     reimbursementRequestService.updateReimRequestAmount(formId, reimAvailAmount);
+
                     reimbursementRequestService.updateAccessToForm("Delete", formId);
                     resp.setContentType("text/html");
                     resp.getWriter().print("<h1> You've changed the Reimbursement Request Amount</h1><br>" + " " +
