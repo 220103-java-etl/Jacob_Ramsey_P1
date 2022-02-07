@@ -190,8 +190,8 @@ public class ReimbursementRequestDOA {
 
             ps.setString(1, status.toString());
             ps.setInt(2, userFormId);
-            ps.executeQuery();
-
+            ps.executeUpdate();
+        
 
     }
 
