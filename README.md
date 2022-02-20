@@ -1,6 +1,6 @@
 # ERS-APPLICATION
 
-## Technologies Used
+# Technologies Used
 - Java 
 - Apache Maven
 - Apache Log4j 2
