@@ -36,7 +36,7 @@
 
 # Getting started
 -used git clone within bash to get started
-![Git instructions](120531.png)
+![Git instructions](Screenshot 2022-02-20 120531.jpg)
 -use an IDE of your chooseing
 -go to the url destination http://localhost:8086/ERS/
 
