@@ -23,6 +23,7 @@
 -Realtime reimbursement form data visualization useing tables
 -Auto rejection of a reimbursement form based on time compliance
 -Specific login failure messages(username does not exist or password incorrect)
+-Auto reimbursement cost updateing based on company policy for event type reimbursement
 
 # To do list
 -Restructure DOM to use more J.S and make application more restful
@@ -35,8 +36,19 @@
 
 # Getting started
 -used git clone within bash to get started
+![Git instructions](120531.png)
 -use an IDE of your chooseing
 -go to the url destination http://localhost:8086/ERS/
+
+# Useage
+-use the application to view reimbursements
+-validate/invalidate and approve/deny reimbursement forms(for Finance Manager)
+-create reimbursement forms(Employee)
+-view messages 
+-update forms if granted access
+-request more form information
+-change reimbursement form amount
+
 
 
 
